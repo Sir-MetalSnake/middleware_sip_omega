@@ -44,7 +44,7 @@ def getCalls():
 def getDate(startDate, endDate):
     connect, cursor = connection()
     try:
-        query = ("select calldate, src, dst, duration, disposition from cdr where (calldate between %s and %s) and (src LIKE '10%' or dst LIKE '10%');")
+        query = ("select calldate, src, dst, duration, disposition from cdr where (calldate >= %s and calldate <= %s) and (src LIKE '10%' or dst LIKE '10%');")
         val = (startDate, endDate,)
         cursor.execute(query, val)
         records = cursor.fetchall()

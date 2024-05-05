@@ -43,7 +43,7 @@ def getCalls():
 def getDate(startDate, endDate):
     connect, cursor = connectionMZ()
     try:
-        query = ("select calldate, src, dst, duration, disposition from cdr where calldate between %s and %s;")
+        query = ("select calldate, src, dst, duration, disposition from cdr where (calldate >= %s and calldate <= %s);")
         val = (startDate, endDate,)
         cursor.execute(query, val)
         records = cursor.fetchall()
