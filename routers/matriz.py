@@ -1,11 +1,13 @@
 from mysql.connector import Error
 from connection import connection, disconnection
 from fastapi import APIRouter
+from datetime import datetime
 
 router = APIRouter(
     prefix="/losmochis",
     tags=["losmochis"],
     responses={404: {"description": "Not found"}})
+
 
 @router.get("/")
 def getCalls():
@@ -19,8 +21,11 @@ def getCalls():
             calls_list = []
             for record in records:
                 date, source, destination, duration, status = record
+                fecha_hora = datetime.fromisoformat(str(date))
+                fecha = fecha_hora.date()
+                hora = fecha_hora.time()
                 call_dict = {
-                    "calldate": date,
+                    "calldate": str(fecha) + " " + str(hora),
                     "src": source,
                     "dst": destination,
                     "duration": duration,
@@ -48,8 +53,11 @@ def getDate(startDate, endDate):
             calls_list = []
             for record in records:
                 date, source, destination, duration, status = record
+                fecha_hora = datetime.fromisoformat(str(date))
+                fecha = fecha_hora.date()
+                hora = fecha_hora.time()
                 call_dict = {
-                    "calldate": date,
+                    "calldate": str(fecha) + " " + str(hora),
                     "src": source,
                     "dst": destination,
                     "duration": duration,
@@ -77,8 +85,11 @@ def getSrc(src):
             calls_list = []
             for record in records:
                 date, source, destination, duration, status = record
+                fecha_hora = datetime.fromisoformat(str(date))
+                fecha = fecha_hora.date()
+                hora = fecha_hora.time()
                 call_dict = {
-                    "calldate": date,
+                    "calldate": str(fecha) + " " + str(hora),
                     "src": source,
                     "dst": destination,
                     "duration": duration,
@@ -106,8 +117,11 @@ def getDst(dst):
             calls_list = []
             for record in records:
                 date, source, destination, duration, status = record
+                fecha_hora = datetime.fromisoformat(str(date))
+                fecha = fecha_hora.date()
+                hora = fecha_hora.time()
                 call_dict = {
-                    "calldate": date,
+                    "calldate": str(fecha) + " " + str(hora),
                     "src": source,
                     "dst": destination,
                     "duration": duration,
@@ -135,8 +149,11 @@ def getSrcDst(src,dst):
             calls_list = []
             for record in records:
                 date, source, destination, duration, status = record
+                fecha_hora = datetime.fromisoformat(str(date))
+                fecha = fecha_hora.date()
+                hora = fecha_hora.time()
                 call_dict = {
-                    "calldate": date,
+                    "calldate": str(fecha) + " " + str(hora),
                     "src": source,
                     "dst": destination,
                     "duration": duration,
@@ -164,8 +181,11 @@ def getStatus(status):
             calls_list = []
             for record in records:
                 date, source, destination, duration, status = record
+                fecha_hora = datetime.fromisoformat(str(date))
+                fecha = fecha_hora.date()
+                hora = fecha_hora.time()
                 call_dict = {
-                    "calldate": date,
+                    "calldate": str(fecha) + " " + str(hora),
                     "src": source,
                     "dst": destination,
                     "duration": duration,
