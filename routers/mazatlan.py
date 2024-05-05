@@ -1,17 +1,17 @@
 from mysql.connector import Error
-from connection import connection, disconnection
+from connection import connectionMZ, disconnection
 from fastapi import APIRouter
 
 router = APIRouter(
-    prefix="/guasave",
-    tags=["guasave"],
+    prefix="/mazatlan",
+    tags=["mazatlan"],
     responses={404: {"description": "Not found"}})
 
 @router.get("/")
 def getCalls():
-    connect, cursor = connection()
+    connect, cursor = connectionMZ()
     try:
-        query = ("select calldate, src, dst, duration, disposition from cdr WHERE src LIKE '20%' or dst LIKE '20%';")
+        query = ("select calldate, src, dst, duration, disposition from cdr;")
         cursor.execute(query)
         records = cursor.fetchall()
 
@@ -37,9 +37,9 @@ def getCalls():
 
 @router.get("/bydate")
 def getDate(startDate, endDate):
-    connect, cursor = connection()
+    connect, cursor = connectionMZ()
     try:
-        query = ("select calldate, src, dst, duration, disposition from cdr where (calldate between %s and %s) and (src LIKE '20%' or dst LIKE '20%');")
+        query = ("select calldate, src, dst, duration, disposition from cdr where calldate between %s and %s;")
         val = (startDate, endDate,)
         cursor.execute(query, val)
         records = cursor.fetchall()
@@ -66,9 +66,9 @@ def getDate(startDate, endDate):
 
 @router.get("/bySrc")
 def getSrc(src):
-    connect, cursor = connection()
+    connect, cursor = connectionMZ()
     try:
-        query = ("select calldate, src, dst, duration, disposition from cdr where (src = %s) and (src LIKE '20%' or dst LIKE '20%') ;")
+        query = ("select calldate, src, dst, duration, disposition from cdr where src = %s;")
         val = (src,)
         cursor.execute(query, val)
         records = cursor.fetchall()
@@ -95,9 +95,9 @@ def getSrc(src):
 
 @router.get("/byDst")
 def getDst(dst):
-    connect, cursor = connection()
+    connect, cursor = connectionMZ()
     try:
-        query = ("select calldate, src, dst, duration, disposition from cdr where (dst = %s) and and (src LIKE '20%' or dst LIKE '20%');")
+        query = ("select calldate, src, dst, duration, disposition from cdr where dst = %s;")
         val = (dst,)
         cursor.execute(query, val)
         records = cursor.fetchall()
@@ -124,9 +124,9 @@ def getDst(dst):
 
 @router.get("/byStatus")
 def getStatus(status):
-    connect, cursor = connection()
+    connect, cursor = connectionMZ()
     try:
-        query = ("select calldate, src, dst, duration, disposition from cdr where (disposition = %s) and (src LIKE '20%' or dst LIKE '20%');")
+        query = ("select calldate, src, dst, duration, disposition from cdr where disposition = %s;")
         val = (status,)
         cursor.execute(query, val)
         records = cursor.fetchall()
