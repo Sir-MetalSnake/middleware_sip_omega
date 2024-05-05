@@ -122,6 +122,35 @@ def getDst(dst):
         disconnection(connect, cursor)
 
 
+@router.get("/bySrcDst")
+def getSrcDst(src,dst):
+    connect, cursor = connection()
+    try:
+        query = ("select calldate, src, dst, duration, disposition from cdr where src = %s and dst = %s ;")
+        val = (src, dst,)
+        cursor.execute(query, val)
+        records = cursor.fetchall()
+
+        if records:
+            calls_list = []
+            for record in records:
+                date, source, destination, duration, status = record
+                call_dict = {
+                    "calldate": date,
+                    "src": source,
+                    "dst": destination,
+                    "duration": duration,
+                    "status": status
+                }
+                calls_list.append(call_dict)
+
+            return {"Calls": calls_list}
+    except Error as e:
+        return {"Error: ", e}
+    finally:
+        disconnection(connect, cursor)
+
+
 @router.get("/byStatus")
 def getStatus(status):
     connect, cursor = connection()
